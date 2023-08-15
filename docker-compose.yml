@@ -1,0 +1,28 @@
+version: "3"
+services:
+    react:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports:
+            - "3000:3000"
+        volumes:
+            - /usr/src/app/node_modules
+            - ./:/usr/src/app
+        stdin_open: true
+        environment:
+            # 소스 수정 즉시 반영되는
+
+            # 핫로딩 활성화하는 부분
+
+            - CHOKIDAR_USEPOLLING=true
+    tests:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /usr/src/app/node_modules
+            - ./:/usr/src/app
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        command: ["npm", "run", "test"]
